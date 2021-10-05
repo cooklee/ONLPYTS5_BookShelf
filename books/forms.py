@@ -15,3 +15,7 @@ def check_if_long(val):
 class BookForm(forms.Form):
     title = forms.CharField(label="", validators=[check_if_starts_with_big, check_if_long], widget=forms.TextInput(attrs=({'class':'inputText','placeholder':'Tytuł'})))
     author = forms.ModelChoiceField(queryset=Author.objects.all(), widget=forms.RadioSelect)
+
+class AuthorForm(forms.Form):
+    first_name = forms.CharField()
+    last_name = forms.CharField()

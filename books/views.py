@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
 
-from books.forms import BookForm
+from books.forms import BookForm, AuthorForm
 from books.models import Author, Book
 
 
@@ -34,17 +34,15 @@ class BooksListView(View):
 class AuthorAddView(View):
 
     def get(self, request):
-        return render(request, 'add_author_form.html')
+        form = AuthorForm()
+        return render(request, 'add_book.html', form)
 
     def post(self, request):
-        # a = {'first_name':'slawek',
-        #  'last_name':'boguslawski'}
-        # Author.objects.create(**a)->
-        # Author.objects.create(first_name='slawek', last_name='boguslawski')
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        Author.objects.create(first_name=first_name, last_name=last_name)
-        return redirect("authors_list_view")
+        form = BookForm(request.POST)
+        if form.is_valid():
+            Author.objects.create(**form.cleaned_data)
+            return redirect("authors_list_view")
+        return render(request, 'add_book.html', {'form': form})
 
 
 class AddBookView(View):
