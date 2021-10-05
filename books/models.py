@@ -16,3 +16,10 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} autor: {self.author}"
+
+class Publisher(models.Model):
+    name = models.CharField(max_length=128)
+    city = models.CharField(max_length=128)
+    street = models.CharField(max_length=50)
+    nip = models.CharField(max_length=10)
+    phone = models.IntegerField()

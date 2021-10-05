@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from django import forms
 from django.core.exceptions import ValidationError
 
-from books.models import Author
+from books.models import Author, Publisher
+
 
 def check_if_starts_with_big(val):
     if not val[0].isupper():
@@ -19,3 +22,16 @@ class BookForm(forms.Form):
 class AuthorForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
+
+    def clean(self):
+        data = super().clean()
+        if data.get('first_name', "").lower() == 'slawek' and data['last_name'].lower() == 'bo':
+            raise ValidationError("tego pana nie obsługujemy")
+        return data
+
+
+class PublisherModelForm(forms.ModelForm):
+
+    class Meta:
+        model = Publisher
+        fields = "__all__"

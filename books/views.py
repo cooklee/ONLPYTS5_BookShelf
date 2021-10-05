@@ -1,10 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views import View
 from datetime import datetime
 
-from books.forms import BookForm, AuthorForm
+from books.forms import BookForm, AuthorForm, PublisherModelForm
 from books.models import Author, Book
 
 
@@ -35,21 +36,21 @@ class AuthorAddView(View):
 
     def get(self, request):
         form = AuthorForm()
-        return render(request, 'add_book.html', form)
+        return render(request, 'form.html', {'form': form})
 
     def post(self, request):
-        form = BookForm(request.POST)
+        form = AuthorForm(request.POST)
         if form.is_valid():
             Author.objects.create(**form.cleaned_data)
             return redirect("authors_list_view")
-        return render(request, 'add_book.html', {'form': form})
+        return render(request, 'form.html', {'form': form})
 
 
 class AddBookView(View):
 
     def get(self, request):
         form = BookForm()
-        return render(request, 'add_book.html', {'form': form})
+        return render(request, 'form.html', {'form': form})
 
     def post(self, request):
         form = BookForm(request.POST)
@@ -58,5 +59,18 @@ class AddBookView(View):
             author = form.cleaned_data['author']
             Book.objects.create(title=title, author=author)
             return redirect("books_list_view")
-        return render(request, 'add_book.html', {'form': form})
+        return render(request, 'form.html', {'form': form})
+
+class AddPublisherView(View):
+
+    def get(self, request):
+        form = PublisherModelForm()
+        return render(request, 'form.html', {'form': form})
+
+    def post(self, request):
+        form = PublisherModelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Udało dodać sie publishera")
+        return render(request, 'form.html', {'form': form})
 
