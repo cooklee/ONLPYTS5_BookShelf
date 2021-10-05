@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -5,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
 
-from books.forms import BookForm, AuthorForm, PublisherModelForm, BooksOnLoanModelForm
+from books.forms import BookForm, AuthorForm, PublisherModelForm, BooksOnLoanModelForm, LoginForm
 from books.models import Author, Book
 
 
@@ -84,7 +85,28 @@ class AddBooksOnLoanView(View):
     def post(self, request):
         form = BooksOnLoanModelForm(request.POST)
         if form.is_valid():
-            form.save()
+            books_on_loan = form.save(commit=False)
+            books_on_loan.user = request.user
+            books_on_loan.save()
+            form.save_m2m()
             return HttpResponse("Udało dodać sie BooksOnLoan")
         return render(request, 'form.html', {'form': form})
+
+class LoginView(View):
+
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'form.html', {'form': form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(request, **form.cleaned_data)
+            if user is not None:
+                login(request, user)
+                return HttpResponse("Udało sie zalogować")
+            else:
+                return HttpResponse("Błędne dane logowania")
+        return render(request, 'form.html', {'form': form})
+
 

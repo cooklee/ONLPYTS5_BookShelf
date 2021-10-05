@@ -9,6 +9,9 @@
 </head>
 <body>
 <ul>
+    {% if not user.is_authenticated %}
+        <li><a href="{% url 'login' %}"> zaloguj</a></li>
+    {% endif %}
     <li><a href="{% url 'books_list_view' %}"> Ksiazki</a></li>
     <li><a href="{% url 'book_add_view' %}"> Dodaj Ksiazki</a></li>
     <li><a href="{% url 'authors_list_view' %}"> Autorzy</a></li>
@@ -16,10 +19,9 @@
     <li><a href="{% url 'booksonloan_add_view' %}"> Wyporzycz</a></li>
     <li><a href=""> O Nas</a></li>
 </ul>
+Witaj czytelniku {{ user.username }}
 {% block zawartosc %}
     Bazowy szablon
 {% endblock %}
-{{ user.is_authenticated }}
-{{ data }}
 </body>
 </html>

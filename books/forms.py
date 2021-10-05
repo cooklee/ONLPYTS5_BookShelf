@@ -46,7 +46,12 @@ class PublisherModelForm(forms.ModelForm):
 class BooksOnLoanModelForm(forms.ModelForm):
     class Meta:
         model = BooksOnLoan
-        fields = "__all__"
+        exclude = ['user']
         widgets = {
             'books':forms.CheckboxSelectMultiple,
         }
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
