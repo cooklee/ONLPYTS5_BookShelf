@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
 
-from books.forms import BookForm, AuthorForm, PublisherModelForm
+from books.forms import BookForm, AuthorForm, PublisherModelForm, BooksOnLoanModelForm
 from books.models import Author, Book
 
 
@@ -72,5 +72,19 @@ class AddPublisherView(View):
         if form.is_valid():
             form.save()
             return HttpResponse("Udało dodać sie publishera")
+        return render(request, 'form.html', {'form': form})
+
+
+class AddBooksOnLoanView(View):
+
+    def get(self, request):
+        form = BooksOnLoanModelForm()
+        return render(request, 'form.html', {'form': form})
+
+    def post(self, request):
+        form = BooksOnLoanModelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Udało dodać sie BooksOnLoan")
         return render(request, 'form.html', {'form': form})
 
