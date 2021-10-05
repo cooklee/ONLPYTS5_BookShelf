@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block zawartosc %}
+    Ksiązki
+    {% include 'list_view.html' with object_list=books %}
+{% endblock %}
