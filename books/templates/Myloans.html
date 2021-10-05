@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block zawartosc %}
+    <ul>
+    {% for loan in loans %}
+      <li>{{ loan.id }} - {{ loan.user.username }} </li>
+        <ul>
+            {% for book in loan.books.all %}
+                <li>{{ book.title }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -7,7 +7,7 @@ from django.views import View
 from datetime import datetime
 
 from books.forms import BookForm, AuthorForm, PublisherModelForm, BooksOnLoanModelForm, LoginForm
-from books.models import Author, Book
+from books.models import Author, Book, BooksOnLoan
 
 
 class IndexView(View):
@@ -110,3 +110,14 @@ class LoginView(View):
         return render(request, 'form.html', {'form': form})
 
 
+class MyBooksOnLoanView(View):
+
+    def get(self, request):
+        booksOnLoan = BooksOnLoan.objects.filter(user=request.user)
+        return render(request, 'Myloans.html', {'loans':booksOnLoan})
+
+
+class DetailAuthorView(View):
+    def  get(self, request, id):
+        author = Author.objects.get(pk=id)
+        return render(request, 'detail_author.html', {'author':author})
