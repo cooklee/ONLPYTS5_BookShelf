@@ -46,7 +46,7 @@ class AuthorModelForm(forms.ModelForm):
 class PublisherModelForm(forms.ModelForm):
     class Meta:
         model = Publisher
-        exclude = ['city']
+        fields= '__all__'
         labels = {
             'phone': 'Telefon',
             'name': 'Nazwa'
@@ -65,3 +65,5 @@ class BooksOnLoanModelForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+

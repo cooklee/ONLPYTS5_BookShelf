@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block zawartosc %}
     <h1>{{ title }}</h1>
-    <ul>
-        {% for item in object_list %}
-            <li><a href="{% url 'detail_author_view' item.id %}"> {{ item }}</a> </li>
-        {% endfor %}
-    </ul>
+{#    <ul>#}
+{#        {% for item in object_list %}#}
+{#            <li>#}
+{#                <a href="{% url 'detail_author_view' item.id %}"> {{ item }}</a>#}
+{#                <a href="{% url 'delete_author_view'  item.id %}">X</a> </li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+    {% include 'list_view.html' %}
 {% endblock %}

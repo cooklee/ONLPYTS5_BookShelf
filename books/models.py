@@ -1,12 +1,15 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-
+from django.urls import reverse
 
 
 class Author(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+
+    def get_absolute_url(self):
+        return reverse('detail_author_view', args=(self.pk, ))
 
 
     def __str__(self):
@@ -16,6 +19,9 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=50)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('detail_book_view', args=(self.pk, ))
 
     def __str__(self):
         return f"{self.title} autor: {self.author}"

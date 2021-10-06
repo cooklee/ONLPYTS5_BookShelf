@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index_view'),
     path('books/', views.BooksListView.as_view(), name='books_list_view'),
+    path('book/<int:pk>/', views.DetailBookView.as_view(), name='detail_book_view'),
     path('authors/', views.AuthorListView.as_view(), name='authors_list_view'),
     path('add_author/', views.AuthorAddView.as_view(), name='authors_add_view'),
     path('add_book/', views.AddBookView.as_view(), name='book_add_view'),
@@ -28,5 +29,7 @@ urlpatterns = [
     path('add_booksonloan/', views.AddBooksOnLoanView.as_view(), name='booksonloan_add_view'),
     path('my_booksonloan/', views.MyBooksOnLoanView.as_view(), name='my_booksonloan_add_view'),
     path("login/", views.LoginView.as_view(), name='login'),
-    path('author/<int:id>/', views.DetailAuthorView.as_view(), name='detail_author_view'),
+    path('author/<int:pk>/', views.DetailAuthorView.as_view(), name='detail_author_view'),
+    path('publisher/<int:pk>/', views.UpdatePublisherView.as_view(), name='update_publisher_view'),
+    path('deleteauthor/<int:pk>/', views.DeleteAuthorView.as_view(), name='delete_author_view')
 ]

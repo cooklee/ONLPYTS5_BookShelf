@@ -1,4 +1,3 @@
-
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -8,10 +7,12 @@ from django.urls import reverse_lazy
 from django.views import View
 from datetime import datetime
 
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from books.forms import BookForm, AuthorForm, PublisherModelForm, BooksOnLoanModelForm, LoginForm, AuthorModelForm
-from books.models import Author, Book, BooksOnLoan
+from books.models import Author, Book, BooksOnLoan, Publisher
+
+from django.contrib import messages
 
 
 class IndexView(View):
@@ -38,12 +39,22 @@ class BooksListView(View):
         response = render(request, 'books.html', {'books': books, })
         return response
 
+class DetailBookView(DetailView):
+    model = Book
+    template_name = 'detail_book.html'
+
+
+
 
 class AuthorAddView(CreateView):
     model = Author
     template_name = 'form.html'
     success_url = reverse_lazy('authors_add_view')
     form_class = AuthorModelForm
+
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.INFO, 'Udało się')
+        return super().form_valid(form)
     # def get(self, request):
     #     form = AuthorForm()
     #     return render(request, 'form.html', {'form': form})
@@ -70,6 +81,7 @@ class AddBookView(View):
             Book.objects.create(title=title, author=author)
             return redirect("books_list_view")
         return render(request, 'form.html', {'form': form})
+
 
 class AddPublisherView(View):
 
@@ -101,6 +113,7 @@ class AddBooksOnLoanView(View):
             return HttpResponse("Udało dodać sie BooksOnLoan")
         return render(request, 'form.html', {'form': form})
 
+
 class LoginView(View):
 
     def get(self, request):
@@ -123,10 +136,24 @@ class MyBooksOnLoanView(View):
 
     def get(self, request):
         booksOnLoan = BooksOnLoan.objects.filter(user=request.user)
-        return render(request, 'Myloans.html', {'loans':booksOnLoan})
+        return render(request, 'Myloans.html', {'loans': booksOnLoan})
 
 
-class DetailAuthorView(View):
-    def  get(self, request, id):
-        author = Author.objects.get(pk=id)
-        return render(request, 'detail_author.html', {'author':author})
+class DetailAuthorView(DetailView):
+    model = Author
+    template_name = 'detail_author.html'
+
+
+class UpdatePublisherView(UpdateView):
+    model = Publisher
+    template_name = 'form.html'
+    fields = '__all__'
+    success_url = "/"
+
+    # def  get(self, request, id):
+    #     author = Author.objects.get(pk=id)
+    #     return render(request, 'detail_author.html', {'author':author})
+class DeleteAuthorView(DeleteView):
+    model = Author
+    success_url = '/'
+    template_name = 'form.html'
