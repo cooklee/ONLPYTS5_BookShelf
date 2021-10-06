@@ -16,13 +16,19 @@
     <div class="container-fluid">
         {% if not user.is_authenticated %}
             <a href="{% url 'login' %}"> zaloguj</a>
+        {% else %}
+            <a href="{% url 'logout' %}">Wyloguj</a>
         {% endif %}
         <a href="{% url 'books_list_view' %}"> Ksiazki</a>
-        <a href="{% url 'book_add_view' %}"> Dodaj Ksiazki</a>
         <a href="{% url 'authors_list_view' %}"> Autorzy</a>
-        <a href="{% url 'authors_add_view' %}"> Dodaj Autora</a>
-        <a href="{% url 'booksonloan_add_view' %}"> Wyporzycz</a>
-        <a href="{% url 'my_booksonloan_add_view' %}"> Wyporzyczenia</a>
+    {% if user.is_authenticated %}
+            <a href="{% url 'book_add_view' %}"> Dodaj Ksiazki</a>
+            <a href="{% url 'authors_add_view' %}"> Dodaj Autora</a>
+            <a href="{% url 'booksonloan_add_view' %}"> Wyporzycz</a>
+            <a href="{% url 'my_booksonloan_add_view' %}"> Wyporzyczenia</a>
+        {% endif %}
+
+
         <a href=""> O Nas</a>
     </div>
 </nav>
