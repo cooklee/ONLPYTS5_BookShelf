@@ -32,6 +32,16 @@ class AuthorForm(forms.Form):
             raise ValidationError("tego pana nie obsługujemy")
         return data
 
+class AuthorModelForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = '__all__'
+
+    def clean(self):
+        data = super().clean()
+        if data.get('first_name', "").lower() == 'slawek' and data['last_name'].lower() == 'bo':
+            raise ValidationError("tego pana nie obsługujemy")
+        return data
 
 class PublisherModelForm(forms.ModelForm):
     class Meta:

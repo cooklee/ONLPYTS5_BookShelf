@@ -1,12 +1,16 @@
+
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.urls import reverse_lazy
 from django.views import View
 from datetime import datetime
 
-from books.forms import BookForm, AuthorForm, PublisherModelForm, BooksOnLoanModelForm, LoginForm
+from django.views.generic import ListView, CreateView
+
+from books.forms import BookForm, AuthorForm, PublisherModelForm, BooksOnLoanModelForm, LoginForm, AuthorModelForm
 from books.models import Author, Book, BooksOnLoan
 
 
@@ -17,12 +21,14 @@ class IndexView(View):
         return response
 
 
-class AuthorListView(View):
+class AuthorListView(ListView):
+    model = Author
+    template_name = 'author.html'
 
-    def get(self, request):
-        authors = Author.objects.all()
-        response = render(request, 'author.html', {'authors': authors})
-        return response
+    # def get(self, request):
+    #     authors = Author.objects.all()
+    #     response = render(request, 'author.html', {'authors': authors})
+    #     return response
 
 
 class BooksListView(View):
@@ -33,18 +39,21 @@ class BooksListView(View):
         return response
 
 
-class AuthorAddView(View):
-
-    def get(self, request):
-        form = AuthorForm()
-        return render(request, 'form.html', {'form': form})
-
-    def post(self, request):
-        form = AuthorForm(request.POST)
-        if form.is_valid():
-            Author.objects.create(**form.cleaned_data)
-            return redirect("authors_list_view")
-        return render(request, 'form.html', {'form': form})
+class AuthorAddView(CreateView):
+    model = Author
+    template_name = 'form.html'
+    success_url = reverse_lazy('authors_add_view')
+    form_class = AuthorModelForm
+    # def get(self, request):
+    #     form = AuthorForm()
+    #     return render(request, 'form.html', {'form': form})
+    #
+    # def post(self, request):
+    #     form = AuthorForm(request.POST)
+    #     if form.is_valid():
+    #         Author.objects.create(**form.cleaned_data)
+    #         return redirect("authors_list_view")
+    #     return render(request, 'form.html', {'form': form})
 
 
 class AddBookView(View):

@@ -2,7 +2,7 @@
 {% block zawartosc %}
     <h1>{{ title }}</h1>
     <ul>
-        {% for item in authors %}
+        {% for item in object_list %}
             <li><a href="{% url 'detail_author_view' item.id %}"> {{ item }}</a> </li>
         {% endfor %}
     </ul>
