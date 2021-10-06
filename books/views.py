@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -40,14 +40,13 @@ class BooksListView(View):
         response = render(request, 'books.html', {'books': books, })
         return response
 
+
 class DetailBookView(DetailView):
     model = Book
     template_name = 'detail_book.html'
 
 
-
-
-class AuthorAddView(CreateView):
+class AuthorAddView(LoginRequiredMixin, CreateView):
     model = Author
     template_name = 'form.html'
     # success_url = reverse_lazy('authors_add_view')
@@ -68,8 +67,8 @@ class AuthorAddView(CreateView):
     #     return render(request, 'form.html', {'form': form})
 
 
-class AddBookView(LoginRequiredMixin, View):
-    login_url = reverse_lazy('login')
+class AddBookView(PermissionRequiredMixin, View):
+    permission_required = ['books.add_book']
 
     def get(self, request):
         form = BookForm()
@@ -116,10 +115,6 @@ class AddBooksOnLoanView(View):
         return render(request, 'form.html', {'form': form})
 
 
-
-
-
-
 class MyBooksOnLoanView(View):
 
     def get(self, request):
@@ -141,10 +136,13 @@ class UpdatePublisherView(UpdateView):
     # def  get(self, request, id):
     #     author = Author.objects.get(pk=id)
     #     return render(request, 'detail_author.html', {'author':author})
+
+
 class DeleteAuthorView(DeleteView):
     model = Author
     success_url = '/'
     template_name = 'form.html'
+
 
 class DeleteBookView(DeleteView):
     model = Book
