@@ -49,7 +49,7 @@ class DetailBookView(DetailView):
 class AuthorAddView(CreateView):
     model = Author
     template_name = 'form.html'
-    success_url = reverse_lazy('authors_add_view')
+    # success_url = reverse_lazy('authors_add_view')
     form_class = AuthorModelForm
 
     def form_valid(self, form):
@@ -155,5 +155,10 @@ class UpdatePublisherView(UpdateView):
     #     return render(request, 'detail_author.html', {'author':author})
 class DeleteAuthorView(DeleteView):
     model = Author
+    success_url = '/'
+    template_name = 'form.html'
+
+class DeleteBookView(DeleteView):
+    model = Book
     success_url = '/'
     template_name = 'form.html'

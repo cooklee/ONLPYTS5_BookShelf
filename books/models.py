@@ -11,6 +11,9 @@ class Author(models.Model):
     def get_absolute_url(self):
         return reverse('detail_author_view', args=(self.pk, ))
 
+    def get_delete_url(self):
+        return reverse('delete_author_view', args=(self.pk, ))
+
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -22,6 +25,9 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail_book_view', args=(self.pk, ))
+
+    def get_delete_url(self):
+        return reverse('delete_book_view', args=(self.pk, ))
 
     def __str__(self):
         return f"{self.title} autor: {self.author}"

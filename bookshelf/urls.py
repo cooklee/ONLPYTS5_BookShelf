@@ -31,5 +31,6 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name='login'),
     path('author/<int:pk>/', views.DetailAuthorView.as_view(), name='detail_author_view'),
     path('publisher/<int:pk>/', views.UpdatePublisherView.as_view(), name='update_publisher_view'),
-    path('deleteauthor/<int:pk>/', views.DeleteAuthorView.as_view(), name='delete_author_view')
+    path('delete_author/<int:pk>/', views.DeleteAuthorView.as_view(), name='delete_author_view'),
+    path('delete_book/<int:pk>/', views.DeleteBookView.as_view(), name='delete_book_view'),
 ]
