@@ -23,11 +23,13 @@ def test_author_list_get():
     assert authors_list.count() == 0
 
 @pytest.mark.django_db
-def test_author_list_get_not_empty():
+def test_author_list_get_not_empty(authors):
     client = Client()
     response = client.get(reverse("authors_list_view"))
     assert response.status_code == 200
     authors_list = response.context['object_list']
-    assert authors_list.count() == 0
+    assert authors_list.count() == len(authors)
+    for author in authors:
+        assert  author in authors_list
 
 
