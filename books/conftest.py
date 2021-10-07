@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth.models import User
 
 from books.models import Author, Book
 
@@ -15,6 +16,10 @@ def authors():
 def books(authors):
     lst = []
     for x in range(10):
-        lst.append(Book.objects.create(title=x, author=authors[0]))
+        lst.append(Book.objects.create(title=x, author_id=authors[0].id))
     return lst
+
+@pytest.fixture
+def user():
+    return User.objects.create(username='cooklee')
 
