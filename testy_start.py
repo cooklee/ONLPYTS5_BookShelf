@@ -1,3 +1,5 @@
+import pytest
+
 
 def fibb(n):
     if n < 2:
@@ -14,4 +16,6 @@ def test_fibb_2():
 def test_fibb_3():
     assert fibb(3) == 2
 
-
+def test_exeption():
+    with pytest.raises(ZeroDivisionError):
+        1/0
