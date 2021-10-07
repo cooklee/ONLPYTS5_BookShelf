@@ -3,6 +3,8 @@ from django.test import TestCase, Client
 # Create your tests here.
 from django.urls import reverse
 
+from books.models import Author
+
 
 def test_empty():
     client = Client() #tworze clienta który bedzie udawał przeglądarke
@@ -55,5 +57,19 @@ def test_add_author_get_login(user):
     client.force_login(user)
     response = client.get(reverse("authors_add_view"))
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_add_author_post(user):
+    client = Client()
+    client.force_login(user)
+    # response = client.get(reverse("authors_add_view"))
+    a = {
+        "first_name":"slawek",
+        'last_name':'boguslawski'
+    }
+    response = client.post(reverse("authors_add_view"), data=a)
+    assert response.status_code == 302
+    Author.objects.get(**a)
 
 
