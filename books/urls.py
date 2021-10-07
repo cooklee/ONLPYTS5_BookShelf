@@ -20,6 +20,7 @@ urlpatterns = [
     path('books/', views.BooksListView.as_view(), name='books_list_view'),
     path('book/<int:pk>/', views.DetailBookView.as_view(), name='detail_book_view'),
     path('authors/', views.AuthorListView.as_view(), name='authors_list_view'),
+    path('publisher/', views.PublisherListView.as_view(), name='publisher_list_view'),
     path('add_author/', views.AuthorAddView.as_view(), name='authors_add_view'),
     path('add_book/', views.AddBookView.as_view(), name='book_add_view'),
     path('add_publisher/', views.AddPublisherView.as_view(), name='publisher_add_view'),

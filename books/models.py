@@ -9,11 +9,10 @@ class Author(models.Model):
     last_name = models.CharField(max_length=50)
 
     def get_absolute_url(self):
-        return reverse('detail_author_view', args=(self.pk, ))
+        return reverse('detail_author_view', args=(self.pk,))
 
     def get_delete_url(self):
-        return reverse('delete_author_view', args=(self.pk, ))
-
+        return reverse('delete_author_view', args=(self.pk,))
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -24,17 +23,19 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('detail_book_view', args=(self.pk, ))
+        return reverse('detail_book_view', args=(self.pk,))
 
     def get_delete_url(self):
-        return reverse('delete_book_view', args=(self.pk, ))
+        return reverse('delete_book_view', args=(self.pk,))
 
     def __str__(self):
         return f"{self.title} autor: {self.author}"
 
+
 def validator_name(val):
     if len(val) < 3:
         raise ValidationError("Za ....")
+
 
 class Publisher(models.Model):
     name = models.CharField(max_length=128, validators=[validator_name])
@@ -43,9 +44,14 @@ class Publisher(models.Model):
     nip = models.CharField(max_length=10)
     phone = models.IntegerField()
 
+    def get_absolute_url(self):
+        return ""
+
+    def get_delete_url(self):
+        return ""
+
+
 class BooksOnLoan(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     books = models.ManyToManyField(Book)
     when = models.DateField(auto_now=True)
-
-

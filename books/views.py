@@ -31,7 +31,9 @@ class AuthorListView(ListView):
     #     authors = Author.objects.all()
     #     response = render(request, 'author.html', {'authors': authors})
     #     return response
-
+class PublisherListView(ListView):
+    model = Publisher
+    template_name = 'author.html'
 
 class BooksListView(View):
 
